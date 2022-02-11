@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://liuyongshuai1993.github.io">
-  <title>Archives: 2022 | 刘小帅的博客</title>
+  <title>异步执行顺序问题2 | 刘小帅的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="刘小帅的博客">
-<meta property="og:url" content="https://liuyongshuai1993.github.io/archives/2022/index.html">
+  <meta name="description" content="阅读下面代码，我们只考虑浏览器环境下的输出结果，写出它们结果打印的先后顺序，并分析出原因，小伙伴们，加油哦！ 12345678910111213141516171819201 async function async1() &amp;#123;2 console.log(&quot;AAAA&quot;);3 async2();4 console.log(&quot;BBBB&quot;);5 &amp;#125">
+<meta property="og:type" content="article">
+<meta property="og:title" content="异步执行顺序问题2">
+<meta property="og:url" content="https://liuyongshuai1993.github.io/2022/02/11/%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F%E9%97%AE%E9%A2%982/index.html">
 <meta property="og:site_name" content="刘小帅的博客">
+<meta property="og:description" content="阅读下面代码，我们只考虑浏览器环境下的输出结果，写出它们结果打印的先后顺序，并分析出原因，小伙伴们，加油哦！ 12345678910111213141516171819201 async function async1() &amp;#123;2 console.log(&quot;AAAA&quot;);3 async2();4 console.log(&quot;BBBB&quot;);5 &amp;#125">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-02-11T01:15:29.000Z">
+<meta property="article:modified_time" content="2022-02-11T02:15:45.416Z">
 <meta property="article:author" content="liuyongshuai1993.github.io">
 <meta name="twitter:card" content="summary">
   
@@ -142,157 +146,110 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-异步执行顺序问题2" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      异步执行顺序问题2
+    </h1>
+  
+
+        
+        <a href="/2022/02/11/%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F%E9%97%AE%E9%A2%982/" class="archive-article-date">
+  	<time datetime="2022-02-11T01:15:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-11</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>阅读下面代码，我们只考虑浏览器环境下的输出结果，写出它们结果打印的先后顺序，并分析出原因，小伙伴们，加油哦！</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">1 async function async1() &#123;</span><br><span class="line">2 console.log(&quot;AAAA&quot;);</span><br><span class="line">3 async2();</span><br><span class="line">4 console.log(&quot;BBBB&quot;);</span><br><span class="line">5 &#125;</span><br><span class="line">6 async function async2() &#123;</span><br><span class="line">7  console.log(&quot;CCCC&quot;);</span><br><span class="line">8 &#125;</span><br><span class="line">9  console.log(&quot;DDDD&quot;);</span><br><span class="line">10 setTimeout(function () &#123;</span><br><span class="line">11 	console.log(&quot;FFFF&quot;);</span><br><span class="line">12 &#125;, 0);</span><br><span class="line">13 async1();</span><br><span class="line">14 new Promise(function (resolve) &#123;</span><br><span class="line">15 	console.log(&quot;GGGG&quot;);</span><br><span class="line">16  resolve();</span><br><span class="line">17 &#125;).then(function () &#123;</span><br><span class="line">18  console.log(&quot;HHHH&quot;);</span><br><span class="line">19 &#125;);</span><br><span class="line">20 console.log(&quot;IIII&quot;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>答案：</strong></p>
+<p>浏览器下 输出结果的先后顺序是</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable constant_">DDDD</span></span><br><span class="line"><span class="variable constant_">AAAA</span></span><br><span class="line"><span class="variable constant_">CCCC</span></span><br><span class="line"><span class="variable constant_">BBBB</span></span><br><span class="line"><span class="variable constant_">GGGG</span></span><br><span class="line"><span class="variable constant_">IIII</span></span><br><span class="line"><span class="variable constant_">HHHH</span></span><br><span class="line"><span class="variable constant_">FFFF</span></span><br></pre></td></tr></table></figure>
+
+<p>答案解析：这道题考察重点是  js异步执行 宏任务 微任务.</p>
+<p>这道题的坑就在于 async中如果没有await，那么它就是一个纯同步函数。</p>
+<p>这道题的起始代码在第9行，输出<code>DDDD</code></p>
+<p>第10行计时器开启一个异步任务t1（一个称呼），这个任务且为宏任务。</p>
+<p>第13行函数<code>async1</code>执行，这个函数内没有await 所以它其实就是一个纯同步函数，打印输出<code>AAAA</code>,</p>
+<p>在<code>async1</code>中执行<code>async2</code>函数，因为<code>async2</code>的内部也没有await，所以它也是个纯同步函数，打印输出<code>CCCC</code></p>
+<p>紧接着打印输出<code>BBBB</code>。</p>
+<p>第14行new Promise执行里面的代码也是同步的,所以打印输出<code>GGGG</code>,resolve()调用的时候开启一个异步任务t2（一个称呼），且这个任务t2是微任务，它的执行交给then()中的第一个回调函数执行，且优先级高于宏任务（t1）执行。</p>
+<p>第20行打印输出<code>IIII</code>,此时线程上的同步任务全部执行结束。</p>
+<p>在执行任务队列中的异步任务时，微任务优先于宏任务执行，所以先执行微任务 t2 打印输出 <code>    HHHH</code>,然后执行宏任务 t1 打印输出 <code>FFFF</code></p>
+<p>所以综上 结果输出是 DDDD AAAA CCCC BBBB  GGGG IIII HHHH FFFF</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2022" class="archive-year">2022</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/02/11/%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2022-02-11T01:15:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/02/11/%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F%E9%97%AE%E9%A2%98/">异步执行顺序问题</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/02/11/%E4%BB%BB%E5%8A%A1%E3%80%81%E5%BE%AE%E4%BB%BB%E5%8A%A1%E3%80%81%E9%98%9F%E5%88%97%E5%92%8C%E6%97%B6%E9%97%B4%E8%A1%A8/" class="archive-article-date">
-  	<time datetime="2022-02-11T01:15:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-11</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2022/02/11/%E5%BE%AE%E4%BB%BB%E5%8A%A1%E6%89%A7%E8%A1%8C%E9%97%AE%E9%A2%98/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          微任务执行问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/02/11/this%E6%8B%94%E9%AB%98/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">10.this拔高</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/02/11/%E4%BB%BB%E5%8A%A1%E3%80%81%E5%BE%AE%E4%BB%BB%E5%8A%A1%E3%80%81%E9%98%9F%E5%88%97%E5%92%8C%E6%97%B6%E9%97%B4%E8%A1%A8/">11.任务、微任务、队列和时间表</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/02/11/%E5%BE%AE%E4%BB%BB%E5%8A%A1%E6%89%A7%E8%A1%8C%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2022-02-11T01:15:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/02/11/%E5%BE%AE%E4%BB%BB%E5%8A%A1%E6%89%A7%E8%A1%8C%E9%97%AE%E9%A2%98/">微任务执行问题</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/02/11/%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F%E9%97%AE%E9%A2%982/" class="archive-article-date">
-  	<time datetime="2022-02-11T01:15:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/02/11/%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F%E9%97%AE%E9%A2%982/">异步执行顺序问题2</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/02/11/this%E6%8B%94%E9%AB%98/" class="archive-article-date">
-  	<time datetime="2022-02-11T01:12:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/02/11/this%E6%8B%94%E9%AB%98/">10.this拔高</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -315,8 +272,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

@@ -6,17 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://liuyongshuai1993.github.io">
-  <title>10.this拔高 | 刘小帅的博客</title>
+  <title>异步执行顺序问题 | 刘小帅的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="只考虑浏览器环境 第一题：写出打印结果，并分析出原因 1234567891011121314var length &#x3D; 10;function fn() &amp;#123;  console.log(this.length);&amp;#125; var obj &#x3D; &amp;#123;  length: 5,  method: function(fn) &amp;#123;    fn();    arguments[0]()">
+  <meta name="description" content="阅读下面代码，我们只考虑浏览器环境下的输出结果，写出它们结果打印的先后顺序，并分析出原因，小伙伴们，加油哦！ 12345678910111213141 console.log(&quot;AAAA&quot;);2 setTimeout(() &#x3D;&gt; console.log(&quot;BBBB&quot;), 1000);3 const start &#x3D; new Date();4 while">
 <meta property="og:type" content="article">
-<meta property="og:title" content="10.this拔高">
-<meta property="og:url" content="https://liuyongshuai1993.github.io/2022/02/11/10-this%E6%8B%94%E9%AB%98/index.html">
+<meta property="og:title" content="异步执行顺序问题">
+<meta property="og:url" content="https://liuyongshuai1993.github.io/2022/02/11/%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="刘小帅的博客">
-<meta property="og:description" content="只考虑浏览器环境 第一题：写出打印结果，并分析出原因 1234567891011121314var length &#x3D; 10;function fn() &amp;#123;  console.log(this.length);&amp;#125; var obj &#x3D; &amp;#123;  length: 5,  method: function(fn) &amp;#123;    fn();    arguments[0]()">
+<meta property="og:description" content="阅读下面代码，我们只考虑浏览器环境下的输出结果，写出它们结果打印的先后顺序，并分析出原因，小伙伴们，加油哦！ 12345678910111213141 console.log(&quot;AAAA&quot;);2 setTimeout(() &#x3D;&gt; console.log(&quot;BBBB&quot;), 1000);3 const start &#x3D; new Date();4 while">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-02-11T01:12:56.000Z">
-<meta property="article:modified_time" content="2022-02-11T01:54:05.649Z">
+<meta property="article:published_time" content="2022-02-11T01:15:29.000Z">
+<meta property="article:modified_time" content="2022-02-11T02:15:28.394Z">
 <meta property="article:author" content="liuyongshuai1993.github.io">
 <meta name="twitter:card" content="summary">
   
@@ -146,37 +146,46 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-10-this拔高" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-异步执行顺序问题" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      10.this拔高
+      异步执行顺序问题
     </h1>
   
 
         
-        <a href="/2022/02/11/10-this%E6%8B%94%E9%AB%98/" class="archive-article-date">
-  	<time datetime="2022-02-11T01:12:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-11</time>
+        <a href="/2022/02/11/%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F%E9%97%AE%E9%A2%98/" class="archive-article-date">
+  	<time datetime="2022-02-11T01:15:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-11</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>只考虑浏览器环境</p>
-<p>第一题：写出打印结果，并分析出原因</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> length = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">fn</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">length</span>);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  <span class="attr">length</span>: <span class="number">5</span>,</span><br><span class="line">  <span class="attr">method</span>: <span class="keyword">function</span>(<span class="params">fn</span>) &#123;</span><br><span class="line">    <span class="title function_">fn</span>();</span><br><span class="line">    <span class="variable language_">arguments</span>[<span class="number">0</span>]();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line">obj.<span class="title function_">method</span>(fn, <span class="number">1</span>);  </span><br></pre></td></tr></table></figure>
+        <hr>
+<p>阅读下面代码，我们只考虑浏览器环境下的输出结果，写出它们结果打印的先后顺序，并分析出原因，小伙伴们，加油哦！</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;AAAA&quot;</span>);</span><br><span class="line"><span class="number">2</span> <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;BBBB&quot;</span>), <span class="number">1000</span>);</span><br><span class="line"><span class="number">3</span> <span class="keyword">const</span> start = <span class="keyword">new</span> <span class="title class_">Date</span>();</span><br><span class="line"><span class="number">4</span> <span class="keyword">while</span> (<span class="keyword">new</span> <span class="title class_">Date</span>() - start &lt; <span class="number">3000</span>) &#123;&#125;</span><br><span class="line"><span class="number">5</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;CCCC&quot;</span>);</span><br><span class="line"><span class="number">6</span> <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;DDDD&quot;</span>), <span class="number">0</span>);</span><br><span class="line"><span class="number">7</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line"><span class="number">8</span>   <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;EEEE&quot;</span>);</span><br><span class="line"><span class="number">9</span>   foo.<span class="title function_">bar</span>(<span class="number">100</span>);</span><br><span class="line"><span class="number">10</span> &#125;)</span><br><span class="line"><span class="number">11</span> .<span class="title function_">then</span>(<span class="function">() =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;FFFF&quot;</span>))</span><br><span class="line"><span class="number">12</span> .<span class="title function_">then</span>(<span class="function">() =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;GGGG&quot;</span>))</span><br><span class="line"><span class="number">13</span> .<span class="title function_">catch</span>(<span class="function">() =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;HHHH&quot;</span>));</span><br><span class="line"><span class="number">14</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;IIII&quot;</span>);</span><br></pre></td></tr></table></figure>
 
-<p>解析：首先，我们在全局定义了一个变量length、一个对象obj和一个函数fn，length赋值为10。接下来是fn函数，输出this.length。对象obj中，obj.length是5，obj.method是一个函数。method函数里面的形参也是一个函数，这个函数里面调用了fn函数，arguments是一个伪数组，代表method函数实际接收到的参数列表，所以arguments[0] ()就代表了调用arguments里的第一项。obj.method(fn, 1)代表的就是调用obj当中的method函数，并且传递了两个参数，fn和1。</p>
-<p>分析完了代码的含义，我们来看输出结果。method函数当中调用的fn函数是全局当中的函数，所以this指向的是window，this.length就是10。上面说了，arguments[0] ()代表的是调用arguments里面的第一项，也就是传参进来的fn，所以这个this指向的是arguments，method函数接收的参数是两个，所以arguments.length就是2。最后的输出结果就是  10  2</p>
-<p>第二题：写出打印结果，并分析出原因</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">a</span>(<span class="params">xx</span>)&#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">x</span> = xx;</span><br><span class="line">  <span class="keyword">return</span> <span class="variable language_">this</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> x = <span class="title function_">a</span>(<span class="number">5</span>);</span><br><span class="line"><span class="keyword">var</span> y = <span class="title function_">a</span>(<span class="number">6</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(x.<span class="property">x</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(y.<span class="property">x</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>答案：</strong></p>
+<p>浏览器下 输出结果的先后顺序是</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable constant_">AAAA</span></span><br><span class="line"><span class="variable constant_">CCCC</span></span><br><span class="line"><span class="variable constant_">EEEE</span></span><br><span class="line"><span class="variable constant_">IIII</span></span><br><span class="line"><span class="variable constant_">HHHH</span></span><br><span class="line"><span class="variable constant_">BBBB</span></span><br><span class="line"><span class="variable constant_">DDDD</span></span><br></pre></td></tr></table></figure>
 
-<p>解析：首先，我们在全局定义了一个变量x、一个变量y和一个函数a，函数a当中的this.x等于接收到的参数，返回this，这里要注意，返回的不是this.x，而是this。接下来我们给x赋值，值为a(5)，又给y进行赋值，值为a(6)。最后，我们输出x.x，y.x。</p>
-<p>分析完代码的含义，我们来看输出结果。a函数传了一个参数5，那么this.x就被赋值为了5，函数a的this指向的是window，也就是window.x &#x3D; 5。上面我们说过，这个函数返回的是this，也就是this指向的window，x &#x3D; a(5)就相当于window.x &#x3D; window，此时的x被赋值为了window。下面又执行了y &#x3D; a(6)，也就是说，x的值再次发生了改变，边为了6，y则被赋值为了window。console.log(x.x)就相当于console.log(6.x)，输出的自然是undefined。console.log(y.x)，输出的相当于是console.log(window.x)，得到的值自然是6。最后输出的结果为  undefined   6</p>
+<p>答案解析：这道题考察重点是  js异步执行 宏任务 微任务。</p>
+<p>一开始代码执行，输出<code>AAAA</code>.  1</p>
+<p>第二行代码开启一个计时器t1(一个称呼)，这是一个异步任务且是宏任务，需要等到1秒后提交。</p>
+<p>第四行是个while语句，需要等待3秒后才能执行下面的代码,这里有个问题，就是3秒后上一个计时器t1的提交时间已经过了，但是线程上的任务还没有执行结束，所以暂时不能打印结果，所以它排在宏任务的最前面了。</p>
+<p>第五行又输出<code>CCCC</code></p>
+<p>第六行又开启一个计时器t2（称呼），它提交的时间是0秒（其实每个浏览器器有默认最小时间的，暂时忽略），但是之前的t1任务还没有执行，还在等待，所以t2就排在t1的后面。（t2排在t1后面的原因是while造成的）都还需要等待，因为线程上的任务还没执行完毕。</p>
+<p>第七行<code>new Promise</code>将执行promise函数，它参数是一个回调函数，这个回调函数内的代码是同步的，它的异步核心在于resolve和reject，同时这个异步任务在任务队列中属于微任务，是优先于宏任务执行的，(不管宏任务有多急，反正我是VIP)。所以先直接打印输出同步代码<code>EEEE</code>。第九行中的代码是个不存在的对象，这个错误要抛给reject这个状态，也就是catch去处理，但是它是异步的且是微任务，只有等到线程上的任务执行完毕，立马执行它，不管宏任务（计时器，ajax等）等待多久了。</p>
+<p>第十四行，这是线程上的最后一个任务，打印输出    <code>IIII</code></p>
+<p>我们先找出线程上的同步代码，将结果依次排列出来：AAAA  CCCC  EEEE IIII</p>
+<p>然后我们再找出所有异步任务中的微任务 把结果打印出来  HHHH</p>
+<p>最后我们再找出异步中的所有宏任务，这里t1排在前面t2排在后面（这个原因是while造成的），输出结果顺序是 BBBB DDDD</p>
+<p>所以综上 结果是  AAAA  CCCC  EEEE  IIII  HHHH BBBB DDDD </p>
 
       
 
@@ -190,57 +199,6 @@
       
 
       
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
-        </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://liuyongshuai1993.github.io/2022/02/11/10-this%E6%8B%94%E9%AB%98/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
       <div class="clearfix"></div>
     </div>
   </div>
@@ -249,15 +207,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2022/02/11/11-%E4%BB%BB%E5%8A%A1%E3%80%81%E5%BE%AE%E4%BB%BB%E5%8A%A1%E3%80%81%E9%98%9F%E5%88%97%E5%92%8C%E6%97%B6%E9%97%B4%E8%A1%A8/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          11.任务、微任务、队列和时间表
-        
-      </div>
-    </a>
   
+    <a href="/2022/02/11/%E4%BB%BB%E5%8A%A1%E3%80%81%E5%BE%AE%E4%BB%BB%E5%8A%A1%E3%80%81%E9%98%9F%E5%88%97%E5%92%8C%E6%97%B6%E9%97%B4%E8%A1%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">11.任务、微任务、队列和时间表</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
