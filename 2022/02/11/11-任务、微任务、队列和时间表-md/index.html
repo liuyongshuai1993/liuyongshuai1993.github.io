@@ -6,21 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://liuyongshuai1993.github.io">
-  <title>one Pice | 刘小帅</title>
+  <title>11.任务、微任务、队列和时间表.md | 刘小帅的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="第一次提交">
+  <meta name="description" content="任务 微任务 队列微任务 宏任务在js中，任务可以分为同步任务和异步任务，也可以分为微任务和宏任务。同步任务属于宏任务，有了这些划分，就可以保证所有任务都有条不紊的执行下去，总的来说就是给要执行的任务定了执行规则、划分了优先级。 在总结宏任务与微任务时，我们先要知道我们哪些情况下可能会执行异步操作（未来某个时间执行任务）；然后要知道宏任务与微任务是怎么区分的，哪些属于宏任务，哪些属于微任务；最后我">
 <meta property="og:type" content="article">
-<meta property="og:title" content="one Pice">
-<meta property="og:url" content="https://liuyongshuai1993.github.io/2022/02/10/one-Pice/index.html">
-<meta property="og:site_name" content="刘小帅">
-<meta property="og:description" content="第一次提交">
-<meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-02-10T06:32:59.000Z">
-<meta property="article:modified_time" content="2022-02-10T06:33:13.834Z">
+<meta property="og:title" content="11.任务、微任务、队列和时间表.md">
+<meta property="og:url" content="https://liuyongshuai1993.github.io/2022/02/11/11-%E4%BB%BB%E5%8A%A1%E3%80%81%E5%BE%AE%E4%BB%BB%E5%8A%A1%E3%80%81%E9%98%9F%E5%88%97%E5%92%8C%E6%97%B6%E9%97%B4%E8%A1%A8-md/index.html">
+<meta property="og:site_name" content="刘小帅的博客">
+<meta property="og:description" content="任务 微任务 队列微任务 宏任务在js中，任务可以分为同步任务和异步任务，也可以分为微任务和宏任务。同步任务属于宏任务，有了这些划分，就可以保证所有任务都有条不紊的执行下去，总的来说就是给要执行的任务定了执行规则、划分了优先级。 在总结宏任务与微任务时，我们先要知道我们哪些情况下可能会执行异步操作（未来某个时间执行任务）；然后要知道宏任务与微任务是怎么区分的，哪些属于宏任务，哪些属于微任务；最后我">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://liuyongshuai1993.github.io/img/task.jpeg">
+<meta property="article:published_time" content="2022-02-11T01:15:29.000Z">
+<meta property="article:modified_time" content="2022-02-11T01:18:02.348Z">
 <meta property="article:author" content="liuyongshuai1993.github.io">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://liuyongshuai1993.github.io/img/task.jpeg">
   
-    <link rel="alternative" href="/atom.xml" title="刘小帅" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="刘小帅的博客" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -47,7 +49,7 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="" class="js-avatar">
+			<img src="./img/logo.jpg" class="js-avatar">
 		</a>
 		<hgroup>
 		  <h1 class="header-author"><a href="/"></a></h1>
@@ -59,7 +61,7 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+				<li><a href="/">随笔</a></li>
 	        
 			</ul>
 		</nav>
@@ -83,10 +85,6 @@
 				
 					<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
 		        
-					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
-		        
-					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-		        
 					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
 		        
 			</div>
@@ -105,7 +103,7 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="" class="js-avatar">
+				<img src="./img/logo.jpg" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author js-header-author"></h1>
@@ -124,10 +122,6 @@
 					
 						<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
 			        
-						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
-			        
-						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-			        
 						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
 			        
 				</div>
@@ -139,7 +133,7 @@
 				
 					<li style="width: 50%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+					<li style="width: 50%"><a href="/">随笔</a></li>
 		        
 				</ul>
 			</nav>
@@ -154,27 +148,81 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-one-Pice" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-11-任务、微任务、队列和时间表-md" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      one Pice
+      11.任务、微任务、队列和时间表.md
     </h1>
   
 
         
-        <a href="/2022/02/10/one-Pice/" class="archive-article-date">
-  	<time datetime="2022-02-10T06:32:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-10</time>
+        <a href="/2022/02/11/11-%E4%BB%BB%E5%8A%A1%E3%80%81%E5%BE%AE%E4%BB%BB%E5%8A%A1%E3%80%81%E9%98%9F%E5%88%97%E5%92%8C%E6%97%B6%E9%97%B4%E8%A1%A8-md/" class="archive-article-date">
+  	<time datetime="2022-02-11T01:15:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-11</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="第一次提交"><a href="#第一次提交" class="headerlink" title="第一次提交"></a>第一次提交</h2>
+        <h1 id="任务-微任务-队列"><a href="#任务-微任务-队列" class="headerlink" title="任务 微任务 队列"></a>任务 微任务 队列</h1><h4 id="微任务-宏任务"><a href="#微任务-宏任务" class="headerlink" title="微任务 宏任务"></a>微任务 宏任务</h4><p>在js中，任务可以分为同步任务和异步任务，也可以分为微任务和宏任务。同步任务属于宏任务，有了这些划分，就可以保证所有任务都有条不紊的执行下去，总的来说就是给要执行的任务定了执行规则、划分了优先级。</p>
+<p>在总结宏任务与微任务时，我们先要知道我们哪些情况下可能会执行异步操作（未来某个时间执行任务）；然后要知道宏任务与微任务是怎么区分的，哪些属于宏任务，哪些属于微任务；最后我们要知道宏任务与微任务是通过什么规则来配合执行的。</p>
+<ul>
+<li><p>能存在异步执行的情况</p>
+<ul>
+<li>回调函数 callback</li>
+<li>Promise&#x2F;async await</li>
+<li>Generator 函数</li>
+<li>事件监听</li>
+<li>发布&#x2F;订阅</li>
+<li>计时器</li>
+<li>requestAnimationFrame</li>
+<li>MutationObserver</li>
+<li>process.nextTick</li>
+<li>I&#x2F;O</li>
+</ul>
+</li>
+<li><p>宏任务</p>
+<ul>
+<li>所有的同步任务</li>
+<li>I&#x2F;O, 比如文件读写、数据库数据读写等等</li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/setTimeout">window.setTimeout</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/setInterval">window.setInterval</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/setImmediate">window.setImmediate</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/window/requestAnimationFrame">window.requestAnimationFrame</a></li>
+</ul>
+</li>
+<li><p>微任务</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise.then catch finally</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Generator">Generator 函数</a></li>
+<li><a target="_blank" rel="noopener" href="https://es6.ruanyifeng.com/#docs/async">async await</a> 和promise是一样的，属于微任务</li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/MutationObserver">MutationObserver</a></li>
+</ul>
+</li>
+<li><p>注</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://nodejs.cn/api/process.html#process_process_nexttick_callback_args">process.nextTick</a>(它指定的任务总是发生在所有异步任务之前)，网上几乎无一例外说这是微任务，可是只要存在这个，process.nextTick就会在所有异步任务执行之前执行</li>
+<li>事件监听, 比如addeventlistener。宏任务待验证</li>
+<li>发布&#x2F;订阅 宏任务待验证</li>
+<li>有人说同步任务属于宏任务，关于这中说法我觉得不太准确，应该说同步任务的执行优先级是高于异步任务</li>
+</ul>
+</li>
+<li><p>任务执行过程</p>
+<ol>
+<li>所有任务都在主进程上执行，异步任务会经历2个阶段 Event Table和Event Queue</li>
+<li>同步任务在主进程排队执行，异步任务（包括宏任务和微任务）在事件队列排队等待进入主进程执行</li>
+<li>遇到宏任务推进宏任务队列，遇到微任务推进微任务队列（宏任务队列的项一般对应一个微任务队列，有点像一个大哥带着一群小马仔，这就组成一组异步任务。如果有嵌套那就会有多个大哥小马仔）</li>
+<li>执行宏任务，执行完宏任务，检查有没有当前层的微任务（大哥带着小马仔逐步亮相。。。）</li>
+<li>继续执行下一个宏任务，然后执行对应层次的微任务，直到全部执行完毕（下一个大哥带着他的小马仔亮相。。。）</li>
+</ol>
+</li>
+</ul>
+<p><img src="/../img/task.jpeg" alt="task"></p>
+
       
 
       
@@ -253,7 +301,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://liuyongshuai1993.github.io/2022/02/10/one-Pice/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://liuyongshuai1993.github.io/2022/02/11/11-%E4%BB%BB%E5%8A%A1%E3%80%81%E5%BE%AE%E4%BB%BB%E5%8A%A1%E3%80%81%E9%98%9F%E5%88%97%E5%92%8C%E6%97%B6%E9%97%B4%E8%A1%A8-md/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -268,8 +316,8 @@
 <nav id="article-nav">
   
   
-    <a href="/2022/02/10/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello World</div>
+    <a href="/2022/02/11/10-this%E6%8B%94%E9%AB%98-%E9%9D%A2%E8%AF%95%E9%A2%98-md/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">10.this拔高-面试题.md</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -333,7 +381,7 @@
 		toc_hide_index: true,
 		root: "/",
 		innerArchive: true,
-		showTags: false
+		showTags: true
 	}
 </script>
 
