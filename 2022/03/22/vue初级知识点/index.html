@@ -6,19 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://liuyongshuai1993.github.io">
-  <title>异步执行顺序问题 | 刘小帅的博客</title>
+  <title>vue初级知识点 | 刘小帅的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="阅读下面代码，我们只考虑浏览器环境下的输出结果，写出它们结果打印的先后顺序，并分析出原因，小伙伴们，加油哦！ 12345678910111213141 console.log(&quot;AAAA&quot;);2 setTimeout(() &#x3D;&gt; console.log(&quot;BBBB&quot;), 1000);3 const start &#x3D; new Date();4 while">
+  <meta name="description" content="1.MVC和MVVM区别MVCMVC 全名是 Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，一种软件设计典范   Model（模型）：是应用程序中用于处理应用程序数据逻辑的部分。通常模型对象负责在数据库中存取数据 View（视图）：是应用程序中处理数据显示的部分。通常视图是依据模型数据创建的 Controller（控制器）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="异步执行顺序问题">
-<meta property="og:url" content="https://liuyongshuai1993.github.io/2022/02/11/%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:title" content="vue初级知识点">
+<meta property="og:url" content="https://liuyongshuai1993.github.io/2022/03/22/vue%E5%88%9D%E7%BA%A7%E7%9F%A5%E8%AF%86%E7%82%B9/index.html">
 <meta property="og:site_name" content="刘小帅的博客">
-<meta property="og:description" content="阅读下面代码，我们只考虑浏览器环境下的输出结果，写出它们结果打印的先后顺序，并分析出原因，小伙伴们，加油哦！ 12345678910111213141 console.log(&quot;AAAA&quot;);2 setTimeout(() &#x3D;&gt; console.log(&quot;BBBB&quot;), 1000);3 const start &#x3D; new Date();4 while">
+<meta property="og:description" content="1.MVC和MVVM区别MVCMVC 全名是 Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，一种软件设计典范   Model（模型）：是应用程序中用于处理应用程序数据逻辑的部分。通常模型对象负责在数据库中存取数据 View（视图）：是应用程序中处理数据显示的部分。通常视图是依据模型数据创建的 Controller（控制器）">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-02-11T01:15:29.000Z">
-<meta property="article:modified_time" content="2022-02-11T02:15:28.394Z">
+<meta property="og:image" content="https://liuyongshuai1993.github.io/img/mvc.jpg">
+<meta property="og:image" content="https://liuyongshuai1993.github.io/img/mvvm.jpg">
+<meta property="article:published_time" content="2022-03-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-03-22T02:46:57.189Z">
 <meta property="article:author" content="liuyongshuai1993.github.io">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://liuyongshuai1993.github.io/img/mvc.jpg">
   
     <link rel="alternative" href="/atom.xml" title="刘小帅的博客" type="application/atom+xml">
   
@@ -146,46 +149,56 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-异步执行顺序问题" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-vue初级知识点" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      异步执行顺序问题
+      vue初级知识点
     </h1>
   
 
         
-        <a href="/2022/02/11/%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2022-02-11T01:15:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-11</time>
+        <a href="/2022/03/22/vue%E5%88%9D%E7%BA%A7%E7%9F%A5%E8%AF%86%E7%82%B9/" class="archive-article-date">
+  	<time datetime="2022-03-21T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-22</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<p>阅读下面代码，我们只考虑浏览器环境下的输出结果，写出它们结果打印的先后顺序，并分析出原因，小伙伴们，加油哦！</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;AAAA&quot;</span>);</span><br><span class="line"><span class="number">2</span> <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;BBBB&quot;</span>), <span class="number">1000</span>);</span><br><span class="line"><span class="number">3</span> <span class="keyword">const</span> start = <span class="keyword">new</span> <span class="title class_">Date</span>();</span><br><span class="line"><span class="number">4</span> <span class="keyword">while</span> (<span class="keyword">new</span> <span class="title class_">Date</span>() - start &lt; <span class="number">3000</span>) &#123;&#125;</span><br><span class="line"><span class="number">5</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;CCCC&quot;</span>);</span><br><span class="line"><span class="number">6</span> <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;DDDD&quot;</span>), <span class="number">0</span>);</span><br><span class="line"><span class="number">7</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line"><span class="number">8</span>   <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;EEEE&quot;</span>);</span><br><span class="line"><span class="number">9</span>   foo.<span class="title function_">bar</span>(<span class="number">100</span>);</span><br><span class="line"><span class="number">10</span> &#125;)</span><br><span class="line"><span class="number">11</span> .<span class="title function_">then</span>(<span class="function">() =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;FFFF&quot;</span>))</span><br><span class="line"><span class="number">12</span> .<span class="title function_">then</span>(<span class="function">() =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;GGGG&quot;</span>))</span><br><span class="line"><span class="number">13</span> .<span class="title function_">catch</span>(<span class="function">() =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;HHHH&quot;</span>));</span><br><span class="line"><span class="number">14</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;IIII&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p><strong>答案：</strong></p>
-<p>浏览器下 输出结果的先后顺序是</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable constant_">AAAA</span></span><br><span class="line"><span class="variable constant_">CCCC</span></span><br><span class="line"><span class="variable constant_">EEEE</span></span><br><span class="line"><span class="variable constant_">IIII</span></span><br><span class="line"><span class="variable constant_">HHHH</span></span><br><span class="line"><span class="variable constant_">BBBB</span></span><br><span class="line"><span class="variable constant_">DDDD</span></span><br></pre></td></tr></table></figure>
-
-<p>答案解析：这道题考察重点是  js异步执行 宏任务 微任务。</p>
-<p>一开始代码执行，输出<code>AAAA</code>.  1</p>
-<p>第二行代码开启一个计时器t1(一个称呼)，这是一个异步任务且是宏任务，需要等到1秒后提交。</p>
-<p>第四行是个while语句，需要等待3秒后才能执行下面的代码,这里有个问题，就是3秒后上一个计时器t1的提交时间已经过了，但是线程上的任务还没有执行结束，所以暂时不能打印结果，所以它排在宏任务的最前面了。</p>
-<p>第五行又输出<code>CCCC</code></p>
-<p>第六行又开启一个计时器t2（称呼），它提交的时间是0秒（其实每个浏览器器有默认最小时间的，暂时忽略），但是之前的t1任务还没有执行，还在等待，所以t2就排在t1的后面。（t2排在t1后面的原因是while造成的）都还需要等待，因为线程上的任务还没执行完毕。</p>
-<p>第七行<code>new Promise</code>将执行promise函数，它参数是一个回调函数，这个回调函数内的代码是同步的，它的异步核心在于resolve和reject，同时这个异步任务在任务队列中属于微任务，是优先于宏任务执行的，(不管宏任务有多急，反正我是VIP)。所以先直接打印输出同步代码<code>EEEE</code>。第九行中的代码是个不存在的对象，这个错误要抛给reject这个状态，也就是catch去处理，但是它是异步的且是微任务，只有等到线程上的任务执行完毕，立马执行它，不管宏任务（计时器，ajax等）等待多久了。</p>
-<p>第十四行，这是线程上的最后一个任务，打印输出    <code>IIII</code></p>
-<p>我们先找出线程上的同步代码，将结果依次排列出来：AAAA  CCCC  EEEE IIII</p>
-<p>然后我们再找出所有异步任务中的微任务 把结果打印出来  HHHH</p>
-<p>最后我们再找出异步中的所有宏任务，这里t1排在前面t2排在后面（这个原因是while造成的），输出结果顺序是 BBBB DDDD</p>
-<p>所以综上 结果是  AAAA  CCCC  EEEE  IIII  HHHH BBBB DDDD </p>
+        <h2 id="1-MVC和MVVM区别"><a href="#1-MVC和MVVM区别" class="headerlink" title="1.MVC和MVVM区别"></a>1.MVC和MVVM区别</h2><h3 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h3><pre><code>MVC 全名是 Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，一种软件设计典范
+</code></pre>
+<ul>
+<li>Model（模型）：是应用程序中用于处理应用程序数据逻辑的部分。通常模型对象负责在数据库中存取数据</li>
+<li>View（视图）：是应用程序中处理数据显示的部分。通常视图是依据模型数据创建的</li>
+<li>Controller（控制器）：是应用程序中处理用户交互的部分。通常控制器负责从视图读取数据，控制用户输入，并向模型发送数据</li>
+<li>MVC 的思想：一句话描述就是 Controller 负责将 Model 的数据用 View 显示出来，换句话说就是在 Controller 里面把 Model 的数据赋值给 View。</li>
+</ul>
+<p><img src="/../img/mvc.jpg" alt="task"></p>
+<h3 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h3><h5 id="MVVM-新增了-VM-类"><a href="#MVVM-新增了-VM-类" class="headerlink" title="MVVM 新增了 VM 类"></a>MVVM 新增了 VM 类</h5><ul>
+<li><p>ViewModel 层：做了两件事达到了数据的双向绑定 一是将【模型】转化成【视图】，即将后端传递的数据转化成所看到的页面。实现的方式是：数据绑定。二是将【视图】转化成【模型】，即将所看到的页面转化成后端的数据。实现的方式是：DOM 事件监听。</p>
+</li>
+<li><p>MVVM 与 MVC 最大的区别就是：它实现了 View 和 Model 的自动同步，也就是当 Model 的属性改变时，我们不用再自己手动操作 Dom 元素，来改变 View 的显示，而是改变属性后该属性对应 View 层显示会自动改变（对应Vue数据驱动的思想</p>
+</li>
+<li><p>整体看来，MVVM 比 MVC 精简很多，不仅简化了业务与界面的依赖，还解决了数据频繁更新的问题，不用再用选择器操作 DOM 元素。因为在 MVVM 中，View 不知道 Model 的存在，Model 和 ViewModel 也观察不到 View，这种低耦合模式提高代码的可重用性<br><img src="/../img/mvvm.jpg" alt="task"></p>
+</li>
+<li><p>注意： Vue 并没有完全遵循 MVVM 的思想 这一点官网自己也有说明<br>那么问题来了 为什么官方要说 Vue 没有完全遵循 MVVM 思想呢？</p>
+</li>
+</ul>
+<p><code>严格的 MVVM 要求 View 不能和 Model 直接通信，而 Vue 提供了$refs 这个属性，让 Model 可以直接操作 View，违反了这一规定，所以说 Vue 没有完全遵循 MVVM。</code></p>
+<h3 id="为什么-data-是一个函数"><a href="#为什么-data-是一个函数" class="headerlink" title="为什么 data 是一个函数"></a>为什么 data 是一个函数</h3><p>组件中的 data 写成一个函数，数据以函数返回值形式定义，这样每复用一次组件，就会返回一份新的 data，类似于给每个组件实例创建一个私有的数据空间，让各个组件实例维护各自的数据。而单纯的写成对象形式，就使得所有组件实例共用了一份 data，就会造成一个变了全都会变的结果</p>
+<h3 id="Vue-组件通讯有哪几种方式"><a href="#Vue-组件通讯有哪几种方式" class="headerlink" title="Vue 组件通讯有哪几种方式"></a>Vue 组件通讯有哪几种方式</h3><ul>
+<li>props 和$emit 父组件向子组件传递数据是通过 prop 传递的，子组件传递数据给父组件是通过$emit 触发事件来做到的</li>
+<li>$parent,$children 获取当前组件的父组件和当前组件的子组件</li>
+<li>$attrs 和$listeners A-&gt;B-&gt;C。Vue 2.4 开始提供了$attrs 和$listeners 来解决这个问题</li>
+<li>父组件中通过 provide 来提供变量，然后在子组件中通过 inject 来注入变量。(官方不推荐在实际业务中使用，但是写组件库时很常用)</li>
+<li>$refs 获取组件实例</li>
+<li>eventBus 兄弟组件数据传递 这种情况下可以使用事件总线的方式</li>
+<li>vuex 状态管理</li>
+</ul>
 
       
 
@@ -207,18 +220,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2022/02/11/%E4%BB%BB%E5%8A%A1%E3%80%81%E5%BE%AE%E4%BB%BB%E5%8A%A1%E3%80%81%E9%98%9F%E5%88%97%E5%92%8C%E6%97%B6%E9%97%B4%E8%A1%A8/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          任务、微任务、队列和时间表
-        
-      </div>
-    </a>
   
-  
-    <a href="/2022/02/11/%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F%E9%97%AE%E9%A2%982/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">异步执行顺序问题2</div>
+    <a href="/2022/02/11/%E4%BB%BB%E5%8A%A1%E3%80%81%E5%BE%AE%E4%BB%BB%E5%8A%A1%E3%80%81%E9%98%9F%E5%88%97%E5%92%8C%E6%97%B6%E9%97%B4%E8%A1%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">任务、微任务、队列和时间表</div>
       <i class="icon-circle-right"></i>
     </a>
   
